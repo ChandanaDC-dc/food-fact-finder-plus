@@ -1,4 +1,3 @@
-
 const translations = {
   en: {
     appName: "Food Fact Finder",
@@ -143,6 +142,42 @@ const translations = {
     submit: "Absenden",
     noResults: "Keine Ergebnisse gefunden",
     back: "Zurück"
+  },
+  kn: {
+    appName: "ಆಹಾರ ಅಂಶ ಹುಡುಕಿ",
+    scanFood: "ಆಹಾರವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+    search: "ಹುಡುಕಿ",
+    camera: "ಕ್ಯಾಮೆರಾ",
+    nutritionFacts: "ಪೋಷಕಾಂಶ ಮಾಹಿತಿ",
+    ingredients: "ಪದಾರ್ಥಗಳು",
+    allergens: "ಅಲರ್ಜಿ ಕಾರಕಗಳು",
+    calories: "ಕ್ಯಾಲೋರಿಗಳು",
+    totalFat: "ಒಟ್ಟು ಕೊಬ್ಬು",
+    saturatedFat: "ಸ್ಯಾಚುರೇಟೆಡ್ ಕೊಬ್ಬು",
+    carbs: "ಕಾರ್ಬೋಹೈಡ್ರೇಟ್‌ಗಳು",
+    sugars: "ಸಕ್ಕರೆಗಳು",
+    proteins: "ಪ್ರೋಟೀನ್",
+    salt: "ಉಪ್ಪು",
+    fiber: "ನಾರು",
+    sodium: "ಸೋಡಿಯಂ",
+    expiresIn: "ಮುಕ್ತಾಯವಾಗುತ್ತದೆ",
+    days: "ದಿನಗಳು",
+    notFound: "ಉತ್ಪನ್ನ ಕಂಡುಬಂದಿಲ್ಲ",
+    tryAgain: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
+    searchPlaceholder: "ಉತ್ಪನ್ನಗಳನ್ನು ಹುಡುಕಿ...",
+    nutritionalGrade: "ಪೋಷಕಾಂಶದ ಗ್ರೇಡ್",
+    safeUsage: "ಸುರಕ್ಷಿತ ಬಳಕೆ",
+    consumeWithin: "ಅವಧಿ ಮುಗಿಯುವ ದಿನಾಂಕದೊಳಗೆ ಬಳಸಿ.",
+    storeIn: "ತಂಪಾದ, ಒಣ ಸ್ಥಳದಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ.",
+    selectLanguage: "ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ",
+    healthWarnings: "ಆರೋಗ್ಯ ಎಚ್ಚರಿಕೆಗಳು",
+    highInSugar: "ಸಕ್ಕರೆ ಹೆಚ್ಚಿದೆ - ಶಿಫಾರಸು ಮಾಡಲಾಗಿಲ್ಲ",
+    highInSalt: "ಉಪ್ಪು ಹೆಚ್ಚಿದೆ - ಸಂಯಮದಿಂದ ಸೇವಿಸಿ",
+    scanning: "ಸ್ಕ್ಯಾನ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    enterBarcode: "ಬಾರ್‌ಕೋಡ್ ಕೈಯಿಂದ ನಮೂದಿಸಿ",
+    submit: "ಸಲ್ಲಿಸಿ",
+    noResults: "ಯಾವುದೇ ಫಲಿತಾಂಶಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
+    back: "ಹಿಂದೆ"
   }
 };
 

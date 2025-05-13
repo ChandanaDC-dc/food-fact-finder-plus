@@ -8,6 +8,7 @@ import { Product } from "@/types/product";
 import { getProductByBarcode } from "@/services/foodApiService";
 import { useLanguageStore } from "@/store/languageStore";
 import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
