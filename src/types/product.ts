@@ -23,6 +23,8 @@ export interface Product {
   ingredients_text?: string;
   allergens_tags?: string[];
   nutrition_grades?: string;
+  storage_instructions?: string;
+  health_warnings?: string[];
 }
 
 export interface SearchResult {
@@ -30,4 +32,16 @@ export interface SearchResult {
   page: number;
   page_size: number;
   products: Product[];
+}
+
+export interface HealthCondition {
+  id: string;
+  name: string;
+  triggers: string[];
+}
+
+export interface StorageType {
+  id: string;
+  name: string;
+  description: string;
 }

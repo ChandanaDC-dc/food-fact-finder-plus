@@ -19,9 +19,9 @@ export const useLanguageStore = create<LanguageState>((set) => ({
     { code: 'fr', name: 'Français' },
     { code: 'es', name: 'Español' },
     { code: 'de', name: 'Deutsch' },
-    { code: 'it', name: 'Italiano' },
-    { code: 'zh', name: '中文' },
     { code: 'kn', name: 'ಕನ್ನಡ' },
+    { code: 'hi', name: 'हिंदी' },
+    { code: 'te', name: 'తెలుగు' },
   ],
   setLanguage: (code: string) => set((state) => ({
     currentLanguage: state.availableLanguages.find(lang => lang.code === code) || state.currentLanguage

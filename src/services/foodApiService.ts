@@ -1,6 +1,7 @@
 
 import { Product, SearchResult } from "../types/product";
 import { toast } from "@/components/ui/use-toast";
+import { searchUSDAProducts, searchEdamamProducts, analyzeHealthRisks } from "./additionalFoodApiService";
 
 const BASE_URL = "https://world.openfoodfacts.org/api/v2";
 
@@ -26,7 +27,14 @@ export const getProductByBarcode = async (barcode: string, lang: string = 'en'):
       return null;
     }
     
-    return data.product as Product;
+    const product = data.product as Product;
+    
+    // Analyze product for health warnings
+    if (product) {
+      product.health_warnings = analyzeHealthRisks(product);
+    }
+    
+    return product;
   } catch (error) {
     console.error("Error fetching product:", error);
     toast({
@@ -38,9 +46,10 @@ export const getProductByBarcode = async (barcode: string, lang: string = 'en'):
   }
 };
 
-// Function to search products
+// Function to search products in all databases
 export const searchProducts = async (query: string, lang: string = 'en', page: number = 1): Promise<SearchResult | null> => {
   try {
+    // First search Open Food Facts
     const response = await fetch(
       `${BASE_URL}/search?search_terms=${encodeURIComponent(query)}&lc=${lang}&page=${page}&page_size=10`
     );
@@ -50,7 +59,35 @@ export const searchProducts = async (query: string, lang: string = 'en', page: n
     }
     
     const data = await response.json();
-    return data as SearchResult;
+    const mainResults = data as SearchResult;
+    
+    // Check if we have enough results, if not, try alternative databases
+    if (mainResults.products.length < 5) {
+      try {
+        // Search USDA in parallel
+        const usdaPromise = searchUSDAProducts(query);
+        const edamamPromise = searchEdamamProducts(query);
+        
+        const [usdaProducts, edamamProducts] = await Promise.all([usdaPromise, edamamPromise]);
+        
+        // Combine results
+        if (usdaProducts && usdaProducts.length > 0) {
+          mainResults.products = [...mainResults.products, ...usdaProducts];
+        }
+        
+        if (edamamProducts && edamamProducts.length > 0) {
+          mainResults.products = [...mainResults.products, ...edamamProducts];
+        }
+        
+        // Update count
+        mainResults.count = mainResults.products.length;
+      } catch (alternativeError) {
+        console.error("Error searching alternative databases:", alternativeError);
+        // Continue with just Open Food Facts results
+      }
+    }
+    
+    return mainResults;
   } catch (error) {
     console.error("Error searching products:", error);
     toast({

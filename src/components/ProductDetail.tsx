@@ -3,7 +3,8 @@ import React from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Product } from "@/types/product";
 import { Card } from "@/components/ui/card";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Refrigerator, Sun, Snowflake, ThermometerSun } from "lucide-react";
+import { analyzeHealthRisks, determineSuitableStorage } from "@/services/additionalFoodApiService";
 
 interface ProductDetailProps {
   product: Product;
@@ -20,6 +21,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   // Check for high sugar/salt warnings
   const highSugar = (product.nutriments?.sugars_100g || 0) > 22.5;
   const highSalt = (product.nutriments?.salt_100g || 0) > 1.5;
+
+  // Get health warnings and storage instructions
+  const healthWarnings = analyzeHealthRisks(product);
+  const storageTypes = determineSuitableStorage(product);
 
   return (
     <div className="w-full max-w-lg mx-auto space-y-6 pb-12">
@@ -39,7 +44,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
       </div>
       
       {/* Health Warnings */}
-      {(highSugar || highSalt) && (
+      {(highSugar || highSalt || healthWarnings.length > 0) && (
         <div className="space-y-3">
           <h2 className="text-xl font-semibold">{t("healthWarnings")}</h2>
           {highSugar && (
@@ -58,8 +63,52 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
               </div>
             </Card>
           )}
+          {healthWarnings.map((warning, index) => (
+            <Card key={index} className="p-4 bg-orange-50 border-orange-200">
+              <div className="flex gap-3 items-center">
+                <AlertTriangle className="text-app-warning w-6 h-6" />
+                <p className="text-gray-800">{t(warning)}</p>
+              </div>
+            </Card>
+          ))}
         </div>
       )}
+      
+      {/* Storage Instructions */}
+      {storageTypes.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-xl font-semibold">{t("storageInstructions")}</h2>
+          <Card className="p-4">
+            <div className="space-y-2">
+              {storageTypes.map((storageType, index) => (
+                <div key={index} className="flex gap-3 items-center">
+                  {storageType === "refrigerate" && <Refrigerator className="text-blue-500 w-5 h-5" />}
+                  {storageType === "avoidSunlight" && <Sun className="text-yellow-500 w-5 h-5" />}
+                  {storageType === "freezer" && <Snowflake className="text-blue-300 w-5 h-5" />}
+                  {storageType === "roomTemperature" && <ThermometerSun className="text-green-500 w-5 h-5" />}
+                  <p>{t(storageType)}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Product Summary for different languages */}
+      <div>
+        <h2 className="text-xl font-semibold mb-3">{t("productSummary")}</h2>
+        <Card className="p-4">
+          <div className="space-y-2 text-sm">
+            <p className="font-medium">English: {product.product_name}</p>
+            {product.ingredients_text && (
+              <p className="text-gray-600">Contains {product.ingredients_text.split(',').slice(0, 3).join(', ')}{product.ingredients_text.split(',').length > 3 ? '...' : ''}</p>
+            )}
+            {healthWarnings.length > 0 && (
+              <p className="text-red-500">{t("notSuitableFor")} {healthWarnings.map(w => t(w.replace('Warning', 'Patients'))).join(', ')}</p>
+            )}
+          </div>
+        </Card>
+      </div>
       
       {/* Nutrition Facts */}
       <div>
